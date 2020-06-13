@@ -1,7 +1,7 @@
 # pi-gen-utils
 Utility scripts to make it easy to develop custom RPi images using the pi-gen system (https://github.com/RPi-Distro/pi-gen )
 
-Pi-gen is incredibly useful as way to create images with precisely the packages and features required for a task. However it is conceptually wrong to have the custom scripts developed in the pi-gen directory structure. Firstly this causes issues as and when pi-gen itself is updated and secondly it is hard to identify the changed files and therefore what changes have been made.
+Pi-gen is incredibly useful as way to create images with precisely the packages and features required for a task. However it is conceptually wrong to have the custom scripts developed in the pi-gen directory structure. Firstly this causes issues as and when pi-gen itself is updated and secondly it is hard to identify the changed files and therefore what changes have been made for your project. 
 
 With these utilities you can have your files in a single directory and have them copied into the pi-gen directory to create the image. The original files are then stored in a backup directory and are restored between builds so as to keep the pi-gen directory tree clean.
 
@@ -77,8 +77,8 @@ restorepigen.sh
 
 Create a second project
 ```
-mkdir myproject
-cd myproject
+mkdir myproject2
+cd myproject2
 ```
 copy the files acress 
 ```
