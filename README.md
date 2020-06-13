@@ -3,9 +3,9 @@ Utility scripts to make it easy to develop custom RPi images using the pi-gen sy
 
 Pi-gen is incredibly useful as way to create images with precisely the packages and features required for a task. However it is conceptually wrong to have the custom scripts developed in the pi-gen directory structure. Firstly this causes issues as and when pi-gen itself is updated and secondly it is hard to identify the changed files and therefore what changes have been made.
 
-With these utilities you can have your files in a single directory and have them copied into the pi-gen directory to create the image. The oroginal files are then stored in a backup directory and are restored between builds so as to keep the pi-gen directory tree clean.
+With these utilities you can have your files in a single directory and have them copied into the pi-gen directory to create the image. The original files are then stored in a backup directory and are restored between builds so as to keep the pi-gen directory tree clean.
 
-In the single directory the relatively complex directory structure of pi-gen is maintained but the '/'s are replaced by '_'.
+In the single directory the relatively complex directory structure of pi-gen is maintained but the '/'s are replaced by '_'. If a file needs an underscore in the name then it should be doubled. e.g. stage3/SKIP_IMAGES is called stage3_SKIP__IMAGES
 
 e.g. a project that creates a raspbian-lite image with different base packages might have the following files in its directory:
 ```
@@ -29,28 +29,30 @@ stage2/01-sys-tweaks/01-run.sh
 stage2/01-sys-tweaks/files/customfile.txt
 stage3/SKIP
 stage4/SKIP
-stage4/SKIP__IMAGES
+stage4/SKIP_IMAGES
 stage5/SKIP
-stage5/SKIP__IMAGES
+stage5/SKIP_IMAGES
 ```
-## Three scripts
+## The scripts
 
 There are three scripts in this repo:
 
- * getfile.sh
+ * getpigenfile.sh
    copies a file from pi-gen to the current location removing everything before "stage" or "export" and replacing all the path '/'s with '_'s
- * set.sh 
+ * setuppigen.sh 
    copy the changed files into the pi-gen directory in preparation for building a new image, also copy any files that will be overwritten into a bak subdirectory of the current directory
- * restore.sh
+ * restorepigen.sh
    copy all the files in the bak directory back to pi-gen and delete any other files that were added
 
+### Environment variable 
+`setuppigen.sh` and `restorepigen.sh` can have the path to the pi-gen directory set in a PP evironment variable, they can also have this passed to them on the command line
 
 ## Intended usage
 
 copy the threee scripts to /usr/local/bin
 
 ```
-cd base directory
+cd basedirectory
 git clone https://github.com/RPi-Distro/pi-gen.git
 ```
 install the pi-gen dependencies (and if planning to run in docker also install docker and docker-compose) 
@@ -61,15 +63,25 @@ cd myproject
 create the config
 copy the files acress 
 ```
-getfile.sh ../pi-gen/stageX/0...
+getpigenfile.sh ../pi-gen/stageX/0...
 ```
-create new files with the appropriate names ( stage2_01-sys-tweaks_files_customfile.txt )
+create new files with the appropriate names ( e.g. stage2_01-sys-tweaks_files_customfile.txt or stage3_SKIP__IMAGES )
 
 ```
-set.sh
+setuppigen.sh
 cd ../pi-gen
 build.sh # or build-docker.sh
 cd -
-restore.sh
+restorepigen.sh
 ```
 
+Create a second project
+```
+mkdir myproject
+cd myproject
+```
+copy the files acress 
+```
+getpigenfile.sh ../pi-gen/stageX/0...
+```
+etc.
