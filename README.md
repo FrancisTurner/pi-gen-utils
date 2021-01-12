@@ -60,8 +60,15 @@ install the pi-gen dependencies (and if planning to run in docker also install d
 mkdir myproject
 cd myproject
 ```
-create the config
-copy the files acress 
+create a file called config with contents similar to below (note you must have ENABLE_SSH=1) 
+```
+IMG_NAME=example
+FIRST_USER_NAME=example
+FIRST_USER_PASS=example
+TARGET_HOSTNAME=example
+ENABLE_SSH=1
+```
+copy the files across 
 ```
 getpigenfile.sh ../pi-gen/stageX/0...
 ```
@@ -80,7 +87,15 @@ Create a second project
 mkdir myproject2
 cd myproject2
 ```
-copy the files acress 
+create config file 
+```
+IMG_NAME=example2
+FIRST_USER_NAME=user
+FIRST_USER_PASS=password
+TARGET_HOSTNAME=example
+ENABLE_SSH=1
+```
+copy the files across 
 ```
 getpigenfile.sh ../pi-gen/stageX/0...
 ```
